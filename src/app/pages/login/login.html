@@ -7,19 +7,33 @@
   <div class="login-card">
     <h2>Iniciar sesión</h2>
 
-    <form>
+    <form (ngSubmit)="ingresar()">
       <div class="form-group">
         <label>Email</label>
-        <input type="email" placeholder="correo@ejemplo.com">
+        <input
+          type="email"
+          name="email"
+          placeholder="correo@ejemplo.com"
+          [(ngModel)]="email"
+        >
       </div>
 
       <div class="form-group">
         <label>Contraseña</label>
-        <input type="password" placeholder="••••••••">
+        <input
+          type="password"
+          name="password"
+          placeholder="••••••••"
+          [(ngModel)]="password"
+        >
       </div>
 
-      <button type="submit">
-        Ingresar
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" [disabled]="loading">
+        {{ loading ? 'Ingresando...' : 'Ingresar' }}
       </button>
     </form>
   </div>

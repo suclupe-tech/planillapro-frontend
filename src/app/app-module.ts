@@ -15,6 +15,8 @@ import { Auditoria } from './pages/auditoria/auditoria';
 import { Usuarios } from './pages/usuarios/usuarios';
 import { Empresas } from './pages/empresas/empresas';
 import { Configuracion } from './pages/configuracion/configuracion';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { Configuracion } from './pages/configuracion/configuracion';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners()
