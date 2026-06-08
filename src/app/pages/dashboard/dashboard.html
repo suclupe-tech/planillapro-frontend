@@ -4,69 +4,101 @@
     <p>Resumen general del sistema de planillas</p>
   </div>
 
-  <div class="summary-grid">
-    <div class="summary-card">
-      <div>
-        <p>Total Planillas</p>
-        <h3>24</h3>
-      </div>
-      <span class="summary-icon">▤</span>
-    </div>
-
-    <div class="summary-card">
-      <div>
-        <p>Planillas Abiertas</p>
-        <h3>3</h3>
-      </div>
-      <span class="summary-icon warning">○</span>
-    </div>
-
-    <div class="summary-card">
-      <div>
-        <p>Planillas Cerradas</p>
-        <h3>21</h3>
-      </div>
-      <span class="summary-icon success">✓</span>
-    </div>
-
-    <div class="summary-card">
-      <div>
-        <p>Total Neto a Pagar</p>
-        <h3>S/ 125,450</h3>
-      </div>
-      <span class="summary-icon money">S/</span>
-    </div>
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
   </div>
 
-  <section class="card chart-card">
-    <h3>Totales Mensuales de Planilla</h3>
+  <section class="summary-grid">
+    <div class="summary-card">
+      <div class="summary-info">
+        <span class="card-label">Total Planillas</span>
+        <strong>{{ resumen.totalPlanillas }}</strong>
+      </div>
+      <div class="card-icon blue">
+        <i class="bi bi-file-earmark-text"></i>
+      </div>
+    </div>
 
-    <div class="chart">
-      <div class="bar" style="height: 65%">
-        <span>Ene</span>
+    <div class="summary-card">
+      <div class="summary-info">
+        <span class="card-label">Planillas Abiertas</span>
+        <strong>{{ resumen.planillasAbiertas }}</strong>
       </div>
-      <div class="bar" style="height: 72%">
-        <span>Feb</span>
+      <div class="card-icon orange">
+        <i class="bi bi-x-circle"></i>
       </div>
-      <div class="bar" style="height: 80%">
-        <span>Mar</span>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-info">
+        <span class="card-label">Planillas Cerradas</span>
+        <strong>{{ resumen.planillasCerradas }}</strong>
       </div>
-      <div class="bar" style="height: 70%">
-        <span>Abr</span>
+      <div class="card-icon green">
+        <i class="bi bi-check-circle"></i>
       </div>
-      <div class="bar" style="height: 84%">
-        <span>May</span>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-info">
+        <span class="card-label">Total Neto a Pagar</span>
+        <strong>{{ formatearMoneda(resumen.totalNetoPagar) }}</strong>
       </div>
-      <div class="bar" style="height: 90%">
-        <span>Jun</span>
+      <div class="card-icon blue">
+        <i class="bi bi-currency-dollar"></i>
       </div>
     </div>
   </section>
 
-  <section class="card">
-    <h3>Últimas Planillas Registradas</h3>
+  <section class="chart-card">
+    <div class="section-header">
+      <h3>Totales Mensuales de Planilla</h3>
+    </div>
 
-    <table class="data-table">
+    <div class="chart-wrapper" *ngIf="totalesMensuales.length > 0; else sinGrafico">
+      <div class="y-axis">
+        <span *ngFor="let marca of obtenerMarcasEjeY()">
+          {{ formatearNumeroSimple(marca) }}
+        </span>
+      </div>
+
+      <div class="chart-area">
+        <div class="grid-lines">
+          <div class="grid-line" *ngFor="let marca of obtenerMarcasEjeY()"></div>
+        </div>
+
+        <div class="bars-row">
+          <div class="bar-item" *ngFor="let item of totalesMensuales">
+            <div class="bar-value">
+              {{ formatearMoneda(item.totalNetoPagar) }}
+            </div>
+
+            <div
+              class="bar"
+              [style.height.%]="calcularAlturaBarra(item.totalNetoPagar)"
+            ></div>
+
+            <span class="bar-label">
+              {{ item.nombreMes ? (item.nombreMes | slice:0:3) : obtenerMes(item.mes) }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #sinGrafico>
+      <div class="empty-message">
+        No hay datos mensuales para mostrar
+      </div>
+    </ng-template>
+  </section>
+
+  <section class="table-card">
+    <div class="section-header">
+      <h3>Últimas Planillas Registradas</h3>
+    </div>
+
+    <table *ngIf="ultimasPlanillas.length > 0; else sinPlanillas">
       <thead>
         <tr>
           <th>Nombre</th>
@@ -78,30 +110,24 @@
       </thead>
 
       <tbody>
-        <tr>
-          <td>Planilla Junio 2026</td>
-          <td>Mensual</td>
-          <td><span class="badge open">ABIERTO</span></td>
-          <td>2026-06-01</td>
-          <td>2026-06-30</td>
-        </tr>
-
-        <tr>
-          <td>Planilla Mayo 2026</td>
-          <td>Mensual</td>
-          <td><span class="badge closed">CERRADO</span></td>
-          <td>2026-05-01</td>
-          <td>2026-05-31</td>
-        </tr>
-
-        <tr>
-          <td>CTS Mayo 2026</td>
-          <td>CTS</td>
-          <td><span class="badge closed">CERRADO</span></td>
-          <td>2026-05-01</td>
-          <td>2026-05-15</td>
+        <tr *ngFor="let planilla of ultimasPlanillas">
+          <td>{{ planilla.nombre }}</td>
+          <td>{{ planilla.tipo }}</td>
+          <td>
+            <span class="badge" [class.closed]="planilla.estado === 'CERRADO'">
+              {{ planilla.estado }}
+            </span>
+          </td>
+          <td>{{ planilla.fechaInicio }}</td>
+          <td>{{ planilla.fechaFin }}</td>
         </tr>
       </tbody>
     </table>
+
+    <ng-template #sinPlanillas>
+      <div class="empty-message">
+        No hay planillas registradas
+      </div>
+    </ng-template>
   </section>
 </div>
