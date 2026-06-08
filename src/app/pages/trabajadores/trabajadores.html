@@ -1,0 +1,95 @@
+<div class="trabajadores-page">
+  <div class="page-header">
+    <div>
+      <h2>Trabajadores</h2>
+      <p>Gestión de empleados de la empresa</p>
+    </div>
+
+    <button class="primary-button">
+      + Nuevo Trabajador
+    </button>
+  </div>
+
+  <section class="card">
+    <div class="filters-row">
+      <div class="search-box">
+        <span>⌕</span>
+        <input type="text" placeholder="Buscar por nombre o documento...">
+      </div>
+
+      <div class="filter-buttons">
+        <button class="active">Todos</button>
+        <button>Activos</button>
+        <button>Inactivos</button>
+      </div>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Documento</th>
+          <th>Nombres</th>
+          <th>Apellidos</th>
+          <th>Cargo</th>
+          <th>Área</th>
+          <th>Sueldo Base</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>12345678</td>
+          <td>Juan Carlos</td>
+          <td>Perez Lopez</td>
+          <td>Supervisor de Ventas</td>
+          <td>Ventas</td>
+          <td>S/ 1,800.00</td>
+          <td><span class="badge active">ACTIVO</span></td>
+          <td>
+            <div class="actions">
+              <button title="Ver">👁</button>
+              <button title="Editar">✎</button>
+              <button title="Eliminar" class="danger">🗑</button>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td>23456789</td>
+          <td>María Elena</td>
+          <td>Rodríguez Pérez</td>
+          <td>Analista de Sistemas</td>
+          <td>TI</td>
+          <td>S/ 4,200.00</td>
+          <td><span class="badge active">ACTIVO</span></td>
+          <td>
+            <div class="actions">
+              <button title="Ver">👁</button>
+              <button title="Editar">✎</button>
+              <button title="Eliminar" class="danger">🗑</button>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td>56789012</td>
+          <td>Luis Miguel</td>
+          <td>Ramírez Castro</td>
+          <td>Operario</td>
+          <td>Producción</td>
+          <td>S/ 1,800.00</td>
+          <td><span class="badge inactive">INACTIVO</span></td>
+          <td>
+            <div class="actions">
+              <button title="Ver">👁</button>
+              <button title="Editar">✎</button>
+              <button title="Eliminar" class="danger">🗑</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>

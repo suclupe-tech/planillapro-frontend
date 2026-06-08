@@ -1,0 +1,59 @@
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="company-logo" *ngIf="companyLogoUrl; else initialsLogo">
+      <img [src]="companyLogoUrl" [alt]="companyName">
+    </div>
+
+    <ng-template #initialsLogo>
+      <div class="company-initials">
+        {{ companyInitials }}
+      </div>
+    </ng-template>
+
+    <span class="company-name">
+      {{ companyName }}
+    </span>
+  </div>
+
+  <nav class="sidebar-menu">
+    <a routerLink="/dashboard" routerLinkActive="active" class="menu-item">
+      <span class="menu-icon">▦</span>
+      <span>Dashboard</span>
+    </a>
+
+    <a routerLink="/trabajadores" routerLinkActive="active" class="menu-item">
+      <span class="menu-icon">☷</span>
+      <span>Trabajadores</span>
+    </a>
+
+    <a routerLink="/planillas" routerLinkActive="active" class="menu-item">
+      <span class="menu-icon">▤</span>
+      <span>Planillas</span>
+    </a>
+
+    <a routerLink="/reportes" routerLinkActive="active" class="menu-item">
+      <span class="menu-icon">▥</span>
+      <span>Reportes</span>
+    </a>
+
+    <a routerLink="/auditoria" routerLinkActive="active" class="menu-item">
+      <span class="menu-icon">↻</span>
+      <span>Auditoría</span>
+    </a>
+
+    <a routerLink="/usuarios" routerLinkActive="active" class="menu-item">
+      <span class="menu-icon">◎</span>
+      <span>Usuarios</span>
+    </a>
+
+    <a routerLink="/empresas" routerLinkActive="active" class="menu-item">
+      <span class="menu-icon">▧</span>
+      <span>Empresas</span>
+    </a>
+
+    <a routerLink="/configuracion" routerLinkActive="active" class="menu-item">
+      <span class="menu-icon">⚙</span>
+      <span>Configuración</span>
+    </a>
+  </nav>
+</aside>
