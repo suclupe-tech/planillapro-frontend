@@ -35,3 +35,22 @@
 .topbar-user button:hover {
   background: #f3f4f6;
 }
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.2;
+}
+
+.user-name {
+  color: #111827;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.user-role {
+  color: #6b7280;
+  font-size: 12px;
+  margin-top: 3px;
+}

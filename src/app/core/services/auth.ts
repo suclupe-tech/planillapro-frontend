@@ -8,12 +8,15 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-  token: string;
-  tipo: string;
   usuarioId: number;
-  email: string;
-  rol: string;
   empresaId: number;
+  empresaRazonSocial: string;
+  rolId: number;
+  rolNombre: string;
+  nombres: string;
+  apellidos: string;
+  email: string;
+  token: string;
 }
 
 @Injectable({
@@ -29,12 +32,15 @@ export class Auth {
   }
 
   guardarSesion(response: LoginResponse): void {
-    localStorage.setItem('token', response.token);
-    localStorage.setItem('usuarioId', response.usuarioId.toString());
-    localStorage.setItem('email', response.email);
-    localStorage.setItem('rol', response.rol);
-    localStorage.setItem('empresaId', response.empresaId.toString());
-  }
+  localStorage.setItem('token', response.token);
+  localStorage.setItem('usuarioId', response.usuarioId.toString());
+  localStorage.setItem('empresaId', response.empresaId.toString());
+  localStorage.setItem('empresaRazonSocial', response.empresaRazonSocial);
+  localStorage.setItem('rolNombre', response.rolNombre);
+  localStorage.setItem('nombres', response.nombres);
+  localStorage.setItem('apellidos', response.apellidos);
+  localStorage.setItem('email', response.email);
+}
 
   obtenerToken(): string | null {
     return localStorage.getItem('token');

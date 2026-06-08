@@ -9,12 +9,18 @@ import { Auth } from '../../core/services/auth';
   styleUrl: './header.scss'
 })
 export class Header {
-  email = localStorage.getItem('email') || 'Usuario';
+  nombres = localStorage.getItem('nombres') || '';
+  apellidos = localStorage.getItem('apellidos') || '';
+  rolNombre = localStorage.getItem('rolNombre') || '';
 
   constructor(
     private authService: Auth,
     private router: Router
   ) { }
+
+  get usuarioNombreCompleto(): string {
+    return `${this.nombres} ${this.apellidos}`.trim() || 'Usuario';
+  }
 
   cerrarSesion(): void {
     this.authService.cerrarSesion();

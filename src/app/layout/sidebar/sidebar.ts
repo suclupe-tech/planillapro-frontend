@@ -7,8 +7,11 @@ import { Component } from '@angular/core';
   styleUrl: './sidebar.scss'
 })
 export class Sidebar {
-  companyName = 'PlanillaPro';
   companyLogoUrl = '';
+
+  get companyName(): string {
+    return localStorage.getItem('empresaRazonSocial') || 'PlanillaPro';
+  }
 
   get companyInitials(): string {
     return this.companyName
