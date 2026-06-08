@@ -12,6 +12,7 @@ import { Auditoria } from './pages/auditoria/auditoria';
 import { Usuarios } from './pages/usuarios/usuarios';
 import { Empresas } from './pages/empresas/empresas';
 import { Configuracion } from './pages/configuracion/configuracion';
+import { authGuard } from './core/guards/auth-guard';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
   {
     path: '',
     component: MainLayout,
+    canActivate: [authGuard],
     children: [
       {
         path: 'dashboard',
