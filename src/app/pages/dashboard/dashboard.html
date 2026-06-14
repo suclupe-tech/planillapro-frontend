@@ -69,14 +69,16 @@
 
         <div class="bars-row">
           <div class="bar-item" *ngFor="let item of totalesMensuales">
-            <div class="bar-value">
-              {{ formatearMoneda(item.totalNetoPagar) }}
+            <div class="bar-wrapper">
+              <div
+                class="bar"
+                [style.height.%]="calcularAlturaBarra(item.totalNetoPagar)"
+              >
+                <span class="bar-tooltip">
+                  {{ formatearMoneda(item.totalNetoPagar) }}
+                </span>
+              </div>
             </div>
-
-            <div
-              class="bar"
-              [style.height.%]="calcularAlturaBarra(item.totalNetoPagar)"
-            ></div>
 
             <span class="bar-label">
               {{ item.nombreMes ? (item.nombreMes | slice:0:3) : obtenerMes(item.mes) }}
