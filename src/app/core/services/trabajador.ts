@@ -43,4 +43,10 @@ export class TrabajadorService {
       headers: this.getHeaders()
     });
   }
+
+  crearTrabajador(request: any): Observable<Trabajador> {
+    return this.http.post<Trabajador>(this.apiUrl, request, {
+      headers: this.getHeaders()
+    });
+  }
 }

@@ -5,13 +5,17 @@
       <p>Gestión de trabajadores registrados</p>
     </div>
 
-    <button class="btn-primary" type="button">
+    <button class="btn-primary" type="button" (click)="abrirFormulario()">
       + Nuevo Trabajador
     </button>
   </div>
 
   <div class="error-message" *ngIf="errorMessage">
     {{ errorMessage }}
+  </div>
+
+  <div class="success-message" *ngIf="successMessage">
+    {{ successMessage }}
   </div>
 
   <section class="card">
@@ -101,4 +105,119 @@
       </div>
     </ng-template>
   </section>
+</div>
+
+<div class="modal-backdrop" *ngIf="mostrarFormulario">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <h3>Nuevo Trabajador</h3>
+        <p>Registra los datos básicos del trabajador</p>
+      </div>
+
+      <button type="button" class="btn-close" (click)="cerrarFormulario()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <form class="modal-form">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Nombres</label>
+          <input
+            type="text"
+            placeholder="Ej. Juan Carlos"
+            name="nombres"
+            [(ngModel)]="nuevoTrabajador.nombres"
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Apellidos</label>
+          <input
+            type="text"
+            placeholder="Ej. Pérez López"
+            name="apellidos"
+            [(ngModel)]="nuevoTrabajador.apellidos"
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Tipo Documento</label>
+          <select
+            name="tipoDocumento"
+            [(ngModel)]="nuevoTrabajador.tipoDocumento"
+          >
+            <option value="DNI">DNI</option>
+            <option value="CE">Carnet de extranjería</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Número Documento</label>
+          <input
+            type="text"
+            placeholder="Ej. 12345678"
+            name="numeroDocumento"
+            [(ngModel)]="nuevoTrabajador.numeroDocumento"
+            [maxlength]="nuevoTrabajador.tipoDocumento === 'DNI' ? 8 : 12"
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Cargo</label>
+          <input
+            type="text"
+            placeholder="Ej. Operario"
+            name="cargo"
+            [(ngModel)]="nuevoTrabajador.cargo"
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Área</label>
+          <input
+            type="text"
+            placeholder="Ej. Producción"
+            name="area"
+            [(ngModel)]="nuevoTrabajador.area"
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Sueldo Base</label>
+          <input
+            type="number"
+            placeholder="Ej. 1800"
+            name="sueldoBase"
+            [(ngModel)]="nuevoTrabajador.sueldoBase"
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Fecha Ingreso</label>
+          <input
+            type="date"
+            name="fechaIngreso"
+            [(ngModel)]="nuevoTrabajador.fechaIngreso"
+          >
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" (click)="cerrarFormulario()">
+          Cancelar
+        </button>
+
+        <button
+          type="button"
+          class="btn-primary"
+          (click)="guardarTrabajador()"
+          [disabled]="guardando"
+        >
+          {{ guardando ? 'Guardando...' : 'Guardar Trabajador' }}
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
