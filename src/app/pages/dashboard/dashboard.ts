@@ -57,9 +57,12 @@ export class Dashboard implements OnInit {
 
     this.dashboardService.obtenerTotalesMensuales().subscribe({
       next: (data) => {
+        console.log('TOTALES MENSUALES:', data);
+
         this.totalesMensuales = data;
         this.loading = false;
       },
+
       error: (error) => {
         console.log('ERROR TOTALES MENSUALES:', error);
         this.loading = false;
