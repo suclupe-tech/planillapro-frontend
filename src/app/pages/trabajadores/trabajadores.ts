@@ -19,6 +19,8 @@ export class Trabajadores implements OnInit {
   successMessage = '';
   guardando = false;
   mostrarFormulario = false;
+  modoFormulario: 'CREAR' | 'EDITAR' | 'VER' = 'CREAR';
+  trabajadorSeleccionadoId: number | null = null;
 
   nuevoTrabajador = {
     nombres: '',
@@ -94,6 +96,9 @@ export class Trabajadores implements OnInit {
 
   abrirFormulario(): void {
     this.mostrarFormulario = true;
+    this.modoFormulario = 'CREAR';
+    this.trabajadorSeleccionadoId = null;
+    this.limpiarFormulario();
   }
 
   limpiarFormulario(): void {
@@ -145,6 +150,54 @@ export class Trabajadores implements OnInit {
       .filter(palabra => palabra.length > 0)
       .map(palabra => palabra.charAt(0).toUpperCase() + palabra.slice(1))
       .join(' ');
+  }
+
+  verTrabajador(trabajador: Trabajador): void {
+    this.modoFormulario = 'VER';
+    this.trabajadorSeleccionadoId = trabajador.id;
+
+    this.nuevoTrabajador = {
+      nombres: trabajador.nombres,
+      apellidos: trabajador.apellidos,
+      tipoDocumento: trabajador.tipoDocumento,
+      numeroDocumento: trabajador.numeroDocumento,
+      cargo: trabajador.cargo,
+      area: trabajador.area,
+      sueldoBase: trabajador.sueldoBase,
+      fechaIngreso: trabajador.fechaIngreso,
+      telefono: trabajador.telefono,
+      email: trabajador.email,
+      direccion: trabajador.direccion,
+      tipoContrato: trabajador.tipoContrato,
+      regimenLaboral: trabajador.regimenLaboral,
+      empresaId: Number(localStorage.getItem('empresaId'))
+    };
+
+    this.mostrarFormulario = true;
+  }
+
+  editarTrabajador(trabajador: Trabajador): void {
+    this.modoFormulario = 'EDITAR';
+    this.trabajadorSeleccionadoId = trabajador.id;
+
+    this.nuevoTrabajador = {
+      nombres: trabajador.nombres,
+      apellidos: trabajador.apellidos,
+      tipoDocumento: trabajador.tipoDocumento,
+      numeroDocumento: trabajador.numeroDocumento,
+      cargo: trabajador.cargo,
+      area: trabajador.area,
+      sueldoBase: trabajador.sueldoBase,
+      fechaIngreso: trabajador.fechaIngreso,
+      telefono: trabajador.telefono,
+      email: trabajador.email,
+      direccion: trabajador.direccion,
+      tipoContrato: trabajador.tipoContrato,
+      regimenLaboral: trabajador.regimenLaboral,
+      empresaId: Number(localStorage.getItem('empresaId'))
+    };
+
+    this.mostrarFormulario = true;
   }
 
   guardarTrabajador(): void {
@@ -224,5 +277,23 @@ export class Trabajadores implements OnInit {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
     })}`;
+  }
+
+  formatearFecha(fecha: string | null | undefined): string {
+    if (!fecha) return '-';
+
+    return new Date(fecha).toLocaleDateString('es-PE', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  }
+
+  obtenerClaseEstado(estado: string | null | undefined): string {
+    if (!estado) return 'status-badge';
+
+    return estado === 'ACTIVO'
+      ? 'status-badge active'
+      : 'status-badge inactive';
   }
 }

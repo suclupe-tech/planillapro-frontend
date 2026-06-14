@@ -87,10 +87,11 @@
           </td>
           <td>
             <div class="actions">
-              <button type="button" title="Ver">
+              <button type="button" title="Ver" (click)="verTrabajador(trabajador)">
                 <i class="bi bi-eye"></i>
               </button>
-              <button type="button" title="Editar">
+
+              <button type="button" title="Editar" (click)="editarTrabajador(trabajador)">
                 <i class="bi bi-pencil"></i>
               </button>
             </div>
@@ -111,8 +112,24 @@
   <div class="modal">
     <div class="modal-header">
       <div>
-        <h3>Nuevo Trabajador</h3>
-        <p>Registra los datos básicos del trabajador</p>
+        <h3>
+          {{
+            modoFormulario === 'CREAR'
+              ? 'Nuevo Trabajador'
+              : modoFormulario === 'EDITAR'
+                ? 'Editar Trabajador'
+                : 'Ficha del Trabajador'
+          }}
+        </h3>
+        <p>
+          {{
+            modoFormulario === 'CREAR'
+              ? 'Registra los datos básicos del trabajador'
+              : modoFormulario === 'EDITAR'
+                ? 'Actualiza la información del trabajador'
+                : 'Consulta la información completa del trabajador'
+          }}
+        </p>
       </div>
 
       <button type="button" class="btn-close" (click)="cerrarFormulario()">
@@ -120,104 +137,271 @@
       </button>
     </div>
 
-    <form class="modal-form">
-      <div class="form-grid">
-        <div class="form-group">
-          <label>Nombres</label>
-          <input
-            type="text"
-            placeholder="Ej. Juan Carlos"
-            name="nombres"
-            [(ngModel)]="nuevoTrabajador.nombres"
-          >
+    <div class="modal-body">
+      <ng-container *ngIf="modoFormulario === 'VER'; else formularioTrabajador">
+
+        <div class="trabajador-ficha">
+          <div class="ficha-header">
+            <div class="ficha-avatar">
+              {{ nuevoTrabajador.nombres.charAt(0) }}{{ nuevoTrabajador.apellidos.charAt(0) }}
+            </div>
+
+            <div class="ficha-header-info">
+              <h4>{{ nuevoTrabajador.nombres }} {{ nuevoTrabajador.apellidos }}</h4>
+              <p>{{ nuevoTrabajador.cargo || '-' }} · {{ nuevoTrabajador.area || '-' }}</p>
+
+              <span [class]="obtenerClaseEstado('ACTIVO')">
+                ACTIVO
+              </span>
+            </div>
+          </div>
+
+          <div class="ficha-section">
+            <h5>Información personal</h5>
+
+            <div class="ficha-grid">
+              <div class="ficha-item">
+                <span class="label">Tipo de documento</span>
+                <span class="value">{{ nuevoTrabajador.tipoDocumento || '-' }}</span>
+              </div>
+
+              <div class="ficha-item">
+                <span class="label">Número de documento</span>
+                <span class="value">{{ nuevoTrabajador.numeroDocumento || '-' }}</span>
+              </div>
+
+              <div class="ficha-item">
+                <span class="label">Nombres</span>
+                <span class="value">{{ nuevoTrabajador.nombres || '-' }}</span>
+              </div>
+
+              <div class="ficha-item">
+                <span class="label">Apellidos</span>
+                <span class="value">{{ nuevoTrabajador.apellidos || '-' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ficha-section">
+            <h5>Información laboral</h5>
+
+            <div class="ficha-grid">
+              <div class="ficha-item">
+                <span class="label">Cargo</span>
+                <span class="value">{{ nuevoTrabajador.cargo || '-' }}</span>
+              </div>
+
+              <div class="ficha-item">
+                <span class="label">Área</span>
+                <span class="value">{{ nuevoTrabajador.area || '-' }}</span>
+              </div>
+
+              <div class="ficha-item">
+                <span class="label">Sueldo base</span>
+                <span class="value">{{ formatearMoneda(nuevoTrabajador.sueldoBase) }}</span>
+              </div>
+
+              <div class="ficha-item">
+                <span class="label">Fecha de ingreso</span>
+                <span class="value">{{ formatearFecha(nuevoTrabajador.fechaIngreso) }}</span>
+              </div>
+
+              <div class="ficha-item">
+                <span class="label">Tipo de contrato</span>
+                <span class="value">{{ nuevoTrabajador.tipoContrato || '-' }}</span>
+              </div>
+
+              <div class="ficha-item">
+                <span class="label">Régimen laboral</span>
+                <span class="value">{{ nuevoTrabajador.regimenLaboral || '-' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ficha-section">
+            <h5>Información de contacto</h5>
+
+            <div class="ficha-grid">
+              <div class="ficha-item">
+                <span class="label">Teléfono</span>
+                <span class="value">{{ nuevoTrabajador.telefono || '-' }}</span>
+              </div>
+
+              <div class="ficha-item">
+                <span class="label">Email</span>
+                <span class="value">{{ nuevoTrabajador.email || '-' }}</span>
+              </div>
+
+              <div class="ficha-item ficha-item-full">
+                <span class="label">Dirección</span>
+                <span class="value">{{ nuevoTrabajador.direccion || '-' }}</span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label>Apellidos</label>
-          <input
-            type="text"
-            placeholder="Ej. Pérez López"
-            name="apellidos"
-            [(ngModel)]="nuevoTrabajador.apellidos"
-          >
+      </ng-container>
+
+      <ng-template #formularioTrabajador>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Nombres</label>
+            <input
+              type="text"
+              name="nombres"
+              [(ngModel)]="nuevoTrabajador.nombres"
+              placeholder="Ingrese nombres"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Apellidos</label>
+            <input
+              type="text"
+              name="apellidos"
+              [(ngModel)]="nuevoTrabajador.apellidos"
+              placeholder="Ingrese apellidos"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Tipo de documento</label>
+            <select
+              name="tipoDocumento"
+              [(ngModel)]="nuevoTrabajador.tipoDocumento"
+            >
+              <option value="DNI">DNI</option>
+              <option value="CE">Carnet de Extranjería</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Número de documento</label>
+            <input
+              type="text"
+              name="numeroDocumento"
+              [(ngModel)]="nuevoTrabajador.numeroDocumento"
+              [maxlength]="nuevoTrabajador.tipoDocumento === 'DNI' ? 8 : 12"
+              placeholder="Ingrese documento"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Cargo</label>
+            <input
+              type="text"
+              name="cargo"
+              [(ngModel)]="nuevoTrabajador.cargo"
+              placeholder="Ingrese cargo"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Área</label>
+            <input
+              type="text"
+              name="area"
+              [(ngModel)]="nuevoTrabajador.area"
+              placeholder="Ingrese área"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Sueldo base</label>
+            <input
+              type="number"
+              name="sueldoBase"
+              [(ngModel)]="nuevoTrabajador.sueldoBase"
+              placeholder="Ingrese sueldo base"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Fecha de ingreso</label>
+            <input
+              type="date"
+              name="fechaIngreso"
+              [(ngModel)]="nuevoTrabajador.fechaIngreso"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Teléfono</label>
+            <input
+              type="text"
+              name="telefono"
+              [(ngModel)]="nuevoTrabajador.telefono"
+              placeholder="Ingrese teléfono"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              name="email"
+              [(ngModel)]="nuevoTrabajador.email"
+              placeholder="Ingrese email"
+            />
+          </div>
+
+          <div class="form-group form-group-full">
+            <label>Dirección</label>
+            <input
+              type="text"
+              name="direccion"
+              [(ngModel)]="nuevoTrabajador.direccion"
+              placeholder="Ingrese dirección"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Tipo de contrato</label>
+            <select
+              name="tipoContrato"
+              [(ngModel)]="nuevoTrabajador.tipoContrato"
+            >
+              <option value="INDETERMINADO">INDETERMINADO</option>
+              <option value="PLAZO_FIJO">PLAZO_FIJO</option>
+              <option value="PART_TIME">PART_TIME</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Régimen laboral</label>
+            <select
+              name="regimenLaboral"
+              [(ngModel)]="nuevoTrabajador.regimenLaboral"
+            >
+              <option value="GENERAL">GENERAL</option>
+              <option value="MYPE">MYPE</option>
+              <option value="MICROEMPRESA">MICROEMPRESA</option>
+            </select>
+          </div>
         </div>
+      </ng-template>
+    </div>
 
-        <div class="form-group">
-          <label>Tipo Documento</label>
-          <select
-            name="tipoDocumento"
-            [(ngModel)]="nuevoTrabajador.tipoDocumento"
-          >
-            <option value="DNI">DNI</option>
-            <option value="CE">Carnet de extranjería</option>
-          </select>
-        </div>
+    <div class="modal-footer">
+      <button type="button" class="btn-secondary" (click)="cerrarFormulario()">
+        {{ modoFormulario === 'VER' ? 'Cerrar' : 'Cancelar' }}
+      </button>
 
-        <div class="form-group">
-          <label>Número Documento</label>
-          <input
-            type="text"
-            placeholder="Ej. 12345678"
-            name="numeroDocumento"
-            [(ngModel)]="nuevoTrabajador.numeroDocumento"
-            [maxlength]="nuevoTrabajador.tipoDocumento === 'DNI' ? 8 : 12"
-          >
-        </div>
-
-        <div class="form-group">
-          <label>Cargo</label>
-          <input
-            type="text"
-            placeholder="Ej. Operario"
-            name="cargo"
-            [(ngModel)]="nuevoTrabajador.cargo"
-          >
-        </div>
-
-        <div class="form-group">
-          <label>Área</label>
-          <input
-            type="text"
-            placeholder="Ej. Producción"
-            name="area"
-            [(ngModel)]="nuevoTrabajador.area"
-          >
-        </div>
-
-        <div class="form-group">
-          <label>Sueldo Base</label>
-          <input
-            type="number"
-            placeholder="Ej. 1800"
-            name="sueldoBase"
-            [(ngModel)]="nuevoTrabajador.sueldoBase"
-          >
-        </div>
-
-        <div class="form-group">
-          <label>Fecha Ingreso</label>
-          <input
-            type="date"
-            name="fechaIngreso"
-            [(ngModel)]="nuevoTrabajador.fechaIngreso"
-          >
-        </div>
-      </div>
-
-      <div class="modal-actions">
-        <button type="button" class="btn-secondary" (click)="cerrarFormulario()">
-          Cancelar
-        </button>
-
-        <button
-          type="button"
-          class="btn-primary"
-          (click)="guardarTrabajador()"
-          [disabled]="guardando"
-        >
-          {{ guardando ? 'Guardando...' : 'Guardar Trabajador' }}
-        </button>
-      </div>
-    </form>
+      <button
+        *ngIf="modoFormulario !== 'VER'"
+        type="button"
+        class="btn-primary"
+        (click)="guardarTrabajador()"
+        [disabled]="guardando"
+      >
+        {{
+          guardando
+            ? 'Guardando...'
+            : modoFormulario === 'EDITAR'
+              ? 'Actualizar Trabajador'
+              : 'Guardar Trabajador'
+        }}
+      </button>
+    </div>
   </div>
 </div>

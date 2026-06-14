@@ -49,4 +49,36 @@ export class TrabajadorService {
       headers: this.getHeaders()
     });
   }
+
+  buscarPorId(id: number): Observable<Trabajador> {
+    return this.http.get<Trabajador>(`${this.apiUrl}/${id}`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  actualizarTrabajador(id: number, request: any): Observable<Trabajador> {
+    return this.http.put<Trabajador>(`${this.apiUrl}/${id}`, request, {
+      headers: this.getHeaders()
+    });
+  }
+
+  darDeBaja(id: number, fechaCese: string): Observable<Trabajador> {
+    return this.http.patch<Trabajador>(
+      `${this.apiUrl}/${id}/baja?fechaCese=${fechaCese}`,
+      {},
+      {
+        headers: this.getHeaders()
+      }
+    );
+  }
+
+  reactivar(id: number): Observable<Trabajador> {
+    return this.http.patch<Trabajador>(
+      `${this.apiUrl}/${id}/reactivar`,
+      {},
+      {
+        headers: this.getHeaders()
+      }
+    );
+  }
 }
