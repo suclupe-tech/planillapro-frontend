@@ -323,6 +323,72 @@ export class Trabajadores implements OnInit {
     });
   }
 
+inactivarTrabajador(trabajador: Trabajador): void {
+  const confirmar = confirm(
+    `¿Deseas inactivar al trabajador ${trabajador.nombres} ${trabajador.apellidos}?`
+  );
+
+  if (!confirmar) {
+    return;
+  }
+
+  const fechaCese = new Date().toISOString().split('T')[0];
+
+  this.trabajadorService.darDeBaja(trabajador.id, fechaCese).subscribe({
+    next: () => {
+      this.trabajadorService.obtenerTrabajadoresEmpresaActual().subscribe({
+        next: (data) => {
+          this.trabajadores = data;
+          this.aplicarFiltros();
+          this.successMessage = 'Trabajador inactivado correctamente';
+
+          setTimeout(() => {
+            this.successMessage = '';
+          }, 3000);
+        }
+      });
+    },
+    error: (error) => {
+      console.log('ERROR INACTIVAR TRABAJADOR:', error);
+      console.log('MENSAJE BACKEND:', error.error);
+
+      this.errorMessage = error.error?.message || 'No se pudo inactivar el trabajador';
+    }
+  });
+}
+
+reactivarTrabajador(trabajador: Trabajador): void {
+  const confirmar = confirm(
+    `¿Deseas reactivar al trabajador ${trabajador.nombres} ${trabajador.apellidos}?`
+  );
+
+  if (!confirmar) {
+    return;
+  }
+
+  this.trabajadorService.reactivar(trabajador.id).subscribe({
+    next: () => {
+      this.trabajadorService.obtenerTrabajadoresEmpresaActual().subscribe({
+        next: (data) => {
+          this.trabajadores = data;
+          this.aplicarFiltros();
+          this.successMessage = 'Trabajador reactivado correctamente';
+
+          setTimeout(() => {
+            this.successMessage = '';
+          }, 3000);
+        }
+      });
+    },
+    error: (error) => {
+      console.log('ERROR REACTIVAR TRABAJADOR:', error);
+      console.log('MENSAJE BACKEND:', error.error);
+
+      this.errorMessage = error.error?.message || 'No se pudo reactivar el trabajador';
+    }
+  });
+}  
+
   formatearMoneda(valor: number): string {
     return `S/ ${(valor || 0).toLocaleString('es-PE', {
       minimumFractionDigits: 2,

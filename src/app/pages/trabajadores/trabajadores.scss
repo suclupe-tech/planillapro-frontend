@@ -459,3 +459,21 @@ td strong {
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
+
+.actions .btn-action-danger {
+  color: #dc2626;
+}
+
+.actions .btn-action-danger:hover {
+  background: #fee2e2;
+  border-color: #dc2626;
+}
+
+.actions .btn-action-success {
+  color: #16a34a;
+}
+
+.actions .btn-action-success:hover {
+  background: #dcfce7;
+  border-color: #16a34a;
+}

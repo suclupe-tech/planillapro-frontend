@@ -94,6 +94,26 @@
               <button type="button" title="Editar" (click)="editarTrabajador(trabajador)">
                 <i class="bi bi-pencil"></i>
               </button>
+
+              <button
+                *ngIf="trabajador.estado === 'ACTIVO'"
+                type="button"
+                title="Inactivar"
+                class="btn-action-danger"
+                (click)="inactivarTrabajador(trabajador)"
+              >
+                <i class="bi bi-person-x"></i>
+              </button>
+
+              <button
+                *ngIf="trabajador.estado === 'INACTIVO'"
+                type="button"
+                title="Reactivar"
+                class="btn-action-success"
+                (click)="reactivarTrabajador(trabajador)"
+              >
+                <i class="bi bi-person-check"></i>
+              </button>
             </div>
           </td>
         </tr>
