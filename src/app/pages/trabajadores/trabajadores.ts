@@ -49,13 +49,15 @@ export class Trabajadores implements OnInit {
 
     this.trabajadoresFiltrados = this.trabajadores.filter(trabajador => {
       const nombreCompleto = `${trabajador.nombres} ${trabajador.apellidos}`.toLowerCase();
-      const dni = trabajador.dni?.toLowerCase() || '';
+      const documento = trabajador.numeroDocumento?.toLowerCase() || '';
       const cargo = trabajador.cargo?.toLowerCase() || '';
+      const area = trabajador.area?.toLowerCase() || '';
 
       const coincideBusqueda =
         nombreCompleto.includes(texto) ||
-        dni.includes(texto) ||
-        cargo.includes(texto);
+        documento.includes(texto) ||
+        cargo.includes(texto) ||
+        area.includes(texto);
 
       const coincideEstado =
         this.filtroEstado === 'TODOS' ||

@@ -6,11 +6,18 @@ export interface Trabajador {
   id: number;
   nombres: string;
   apellidos: string;
-  dni: string;
+  tipoDocumento: string;
+  numeroDocumento: string;
   cargo: string;
-  sueldoBasico: number;
+  area: string;
+  sueldoBase: number;
   fechaIngreso: string;
   estado: string;
+  telefono: string;
+  email: string;
+  direccion: string;
+  tipoContrato: string;
+  regimenLaboral: string;
 }
 
 @Injectable({

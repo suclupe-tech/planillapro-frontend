@@ -72,9 +72,9 @@
           <td>
             <strong>{{ trabajador.nombres }} {{ trabajador.apellidos }}</strong>
           </td>
-          <td>{{ trabajador.dni }}</td>
+          <td>{{ trabajador.numeroDocumento }}</td>
           <td>{{ trabajador.cargo }}</td>
-          <td>{{ formatearMoneda(trabajador.sueldoBasico) }}</td>
+          <td>{{ formatearMoneda(trabajador.sueldoBase) }}</td>
           <td>{{ trabajador.fechaIngreso }}</td>
           <td>
             <span class="badge" [class.inactive]="trabajador.estado === 'INACTIVO'">
