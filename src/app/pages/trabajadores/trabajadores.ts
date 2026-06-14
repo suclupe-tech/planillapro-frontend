@@ -239,6 +239,14 @@ export class Trabajadores implements OnInit {
 
     this.guardando = true;
 
+    if (this.modoFormulario === 'EDITAR' && this.trabajadorSeleccionadoId) {
+      this.actualizarTrabajador();
+    } else {
+      this.crearTrabajador();
+    }
+  }
+
+  crearTrabajador(): void {
     this.trabajadorService.crearTrabajador(this.nuevoTrabajador).subscribe({
       next: () => {
         this.mostrarFormulario = false;
@@ -267,6 +275,49 @@ export class Trabajadores implements OnInit {
         console.log('MENSAJE BACKEND:', error.error);
 
         this.errorMessage = error.error?.message || 'No se pudo registrar el trabajador';
+        this.guardando = false;
+      }
+    });
+  }
+
+  actualizarTrabajador(): void {
+    if (!this.trabajadorSeleccionadoId) {
+      this.errorMessage = 'No se encontró el trabajador seleccionado';
+      this.guardando = false;
+      return;
+    }
+
+    this.trabajadorService.actualizarTrabajador(
+      this.trabajadorSeleccionadoId,
+      this.nuevoTrabajador
+    ).subscribe({
+      next: () => {
+        this.mostrarFormulario = false;
+        this.limpiarFormulario();
+
+        this.trabajadorService.obtenerTrabajadoresEmpresaActual().subscribe({
+          next: (data) => {
+            this.trabajadores = data;
+            this.aplicarFiltros();
+            this.successMessage = 'Trabajador actualizado correctamente';
+            this.guardando = false;
+
+            setTimeout(() => {
+              this.successMessage = '';
+            }, 3000);
+          },
+          error: (error) => {
+            console.log('ERROR RECARGAR TRABAJADORES:', error);
+            this.errorMessage = 'El trabajador se actualizó, pero no se pudo actualizar la tabla';
+            this.guardando = false;
+          }
+        });
+      },
+      error: (error) => {
+        console.log('ERROR ACTUALIZAR TRABAJADOR:', error);
+        console.log('MENSAJE BACKEND:', error.error);
+
+        this.errorMessage = error.error?.message || 'No se pudo actualizar el trabajador';
         this.guardando = false;
       }
     });
