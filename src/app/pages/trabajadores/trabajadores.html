@@ -2,94 +2,103 @@
   <div class="page-header">
     <div>
       <h2>Trabajadores</h2>
-      <p>Gestión de empleados de la empresa</p>
+      <p>Gestión de trabajadores registrados</p>
     </div>
 
-    <button class="primary-button">
+    <button class="btn-primary" type="button">
       + Nuevo Trabajador
     </button>
   </div>
 
-  <section class="card">
-    <div class="filters-row">
-      <div class="search-box">
-        <span>⌕</span>
-        <input type="text" placeholder="Buscar por nombre o documento...">
-      </div>
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
 
-      <div class="filter-buttons">
-        <button class="active">Todos</button>
-        <button>Activos</button>
-        <button>Inactivos</button>
+  <section class="card">
+    <div class="toolbar">
+      <input
+        type="text"
+        placeholder="Buscar por nombre, DNI o cargo..."
+        [(ngModel)]="terminoBusqueda"
+        (input)="aplicarFiltros()"
+      >
+
+      <div class="filters">
+        <button
+          type="button"
+          [class.active]="filtroEstado === 'TODOS'"
+          (click)="cambiarFiltroEstado('TODOS')"
+        >
+          Todos
+        </button>
+
+        <button
+          type="button"
+          [class.active]="filtroEstado === 'ACTIVO'"
+          (click)="cambiarFiltroEstado('ACTIVO')"
+        >
+          Activos
+        </button>
+
+        <button
+          type="button"
+          [class.active]="filtroEstado === 'INACTIVO'"
+          (click)="cambiarFiltroEstado('INACTIVO')"
+        >
+          Inactivos
+        </button>
       </div>
     </div>
 
-    <table class="data-table">
+    <div class="loading-message" *ngIf="loading">
+      Cargando trabajadores...
+    </div>
+
+    <table *ngIf="!loading && trabajadoresFiltrados.length > 0; else sinTrabajadores">
       <thead>
         <tr>
-          <th>Documento</th>
-          <th>Nombres</th>
-          <th>Apellidos</th>
+          <th>Trabajador</th>
+          <th>DNI</th>
           <th>Cargo</th>
-          <th>Área</th>
-          <th>Sueldo Base</th>
+          <th>Sueldo Básico</th>
+          <th>Fecha Ingreso</th>
           <th>Estado</th>
           <th>Acciones</th>
         </tr>
       </thead>
 
       <tbody>
-        <tr>
-          <td>12345678</td>
-          <td>Juan Carlos</td>
-          <td>Perez Lopez</td>
-          <td>Supervisor de Ventas</td>
-          <td>Ventas</td>
-          <td>S/ 1,800.00</td>
-          <td><span class="badge active">ACTIVO</span></td>
+        <tr *ngFor="let trabajador of trabajadoresFiltrados">
           <td>
-            <div class="actions">
-              <button title="Ver">👁</button>
-              <button title="Editar">✎</button>
-              <button title="Eliminar" class="danger">🗑</button>
-            </div>
+            <strong>{{ trabajador.nombres }} {{ trabajador.apellidos }}</strong>
           </td>
-        </tr>
-
-        <tr>
-          <td>23456789</td>
-          <td>María Elena</td>
-          <td>Rodríguez Pérez</td>
-          <td>Analista de Sistemas</td>
-          <td>TI</td>
-          <td>S/ 4,200.00</td>
-          <td><span class="badge active">ACTIVO</span></td>
+          <td>{{ trabajador.dni }}</td>
+          <td>{{ trabajador.cargo }}</td>
+          <td>{{ formatearMoneda(trabajador.sueldoBasico) }}</td>
+          <td>{{ trabajador.fechaIngreso }}</td>
           <td>
-            <div class="actions">
-              <button title="Ver">👁</button>
-              <button title="Editar">✎</button>
-              <button title="Eliminar" class="danger">🗑</button>
-            </div>
+            <span class="badge" [class.inactive]="trabajador.estado === 'INACTIVO'">
+              {{ trabajador.estado }}
+            </span>
           </td>
-        </tr>
-
-        <tr>
-          <td>56789012</td>
-          <td>Luis Miguel</td>
-          <td>Ramírez Castro</td>
-          <td>Operario</td>
-          <td>Producción</td>
-          <td>S/ 1,800.00</td>
-          <td><span class="badge inactive">INACTIVO</span></td>
           <td>
             <div class="actions">
-              <button title="Ver">👁</button>
-              <button title="Editar">✎</button>
-              <button title="Eliminar" class="danger">🗑</button>
+              <button type="button" title="Ver">
+                <i class="bi bi-eye"></i>
+              </button>
+              <button type="button" title="Editar">
+                <i class="bi bi-pencil"></i>
+              </button>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
+
+    <ng-template #sinTrabajadores>
+      <div class="empty-message" *ngIf="!loading">
+        No hay trabajadores para mostrar
+      </div>
+    </ng-template>
   </section>
 </div>
