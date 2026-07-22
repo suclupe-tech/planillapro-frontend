@@ -13,6 +13,7 @@ import { Usuarios } from './pages/usuarios/usuarios';
 import { Empresas } from './pages/empresas/empresas';
 import { Configuracion } from './pages/configuracion/configuracion';
 import { authGuard } from './core/guards/auth-guard';
+import { Asistencia } from './pages/asistencia/asistencia';
 
 const routes: Routes = [
   {
@@ -31,6 +32,11 @@ const routes: Routes = [
       {
         path: 'trabajadores',
         component: Trabajadores
+      },
+
+      {
+        path: 'asistencia',
+        component: Asistencia
       },
       {
         path: 'planillas',
@@ -56,6 +62,7 @@ const routes: Routes = [
         path: 'configuracion',
         component: Configuracion
       },
+
       {
         path: '',
         redirectTo: 'dashboard',

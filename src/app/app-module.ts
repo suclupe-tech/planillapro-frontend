@@ -17,6 +17,7 @@ import { Empresas } from './pages/empresas/empresas';
 import { Configuracion } from './pages/configuracion/configuracion';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { Asistencia } from './pages/asistencia/asistencia';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { FormsModule } from '@angular/forms';
     Auditoria,
     Usuarios,
     Empresas,
-    Configuracion
+    Configuracion,
+    Asistencia
   ],
   imports: [
     BrowserModule,

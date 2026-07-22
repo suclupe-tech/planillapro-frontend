@@ -1,0 +1,109 @@
+<div class="asistencia-page">
+  <div class="page-header">
+    <div>
+      <h2>Asistencia</h2>
+      <p>Registro y control de días y horas trabajadas</p>
+    </div>
+
+    <button class="btn-primary" type="button">
+      + Registrar Asistencia
+    </button>
+  </div>
+
+  <section class="card">
+    <div class="filters-grid">
+      <div class="form-group">
+        <label>Fecha desde</label>
+        <input type="date">
+      </div>
+
+      <div class="form-group">
+        <label>Fecha hasta</label>
+        <input type="date">
+      </div>
+
+      <div class="form-group">
+        <label>Trabajador</label>
+        <select>
+          <option>Todos los trabajadores</option>
+        </select>
+      </div>
+
+      <div class="form-group button-group">
+        <button class="btn-secondary" type="button">
+          Buscar
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="section-header">
+      <h3>Registro de Asistencia</h3>
+      <p>Listado de asistencias registradas por trabajador</p>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Trabajador</th>
+          <th>Fecha</th>
+          <th>Entrada</th>
+          <th>Salida</th>
+          <th>Horas Trabajadas</th>
+          <th>Horas Extra</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td><strong>Juan Carlos Perez Lopez</strong></td>
+          <td>2026-07-22</td>
+          <td>08:00</td>
+          <td>18:00</td>
+          <td>8.00</td>
+          <td>1.00</td>
+          <td>
+            <span class="badge success">ASISTIÓ</span>
+          </td>
+          <td>
+            <div class="actions">
+              <button type="button" title="Ver">
+                <i class="bi bi-eye"></i>
+              </button>
+
+              <button type="button" title="Editar">
+                <i class="bi bi-pencil"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><strong>María Torres</strong></td>
+          <td>2026-07-22</td>
+          <td>-</td>
+          <td>-</td>
+          <td>0.00</td>
+          <td>0.00</td>
+          <td>
+            <span class="badge danger">FALTA</span>
+          </td>
+          <td>
+            <div class="actions">
+              <button type="button" title="Ver">
+                <i class="bi bi-eye"></i>
+              </button>
+
+              <button type="button" title="Editar">
+                <i class="bi bi-pencil"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>
